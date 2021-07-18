@@ -636,7 +636,8 @@ if(!is_null($auth)) {
                 // Show Logout button if $auth is set and authorization is required
                 if(strlen($pwhash) > 0) { ?>
                 <li>
-                    <a href="?logout">
+                    <!--<a href="?logout"> -->
+                    <a href="logout.php">
                         <i class="fa fa-fw fa-user-times"></i> <span>Logout</span>
                     </a>
                 </li>
