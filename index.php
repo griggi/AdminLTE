@@ -13,7 +13,7 @@
         'client_secret' => $_ENV['AUTH0_CLIENT_SECRET'],
         'redirect_uri' => $_ENV['AUTH0_CALLBACK_URL'],
     ]);
-    $auth = $auth0->getUser();
+    $userInfo = $auth0->getUser();
 
     $indexpage = true;
     require "scripts/pi-hole/php/header.php";
@@ -116,7 +116,7 @@
   // Even if we would include them here anyhow, there would be nothing to
   // show since the API will respect the privacy of the user if he defines
   // a password
-  if(!is_null($auth)){ ?>
+  if($userInfo){ ?>
 
 <div class="row">
     <div class="col-md-12">
