@@ -5,16 +5,6 @@
 *
 *    This file is copyright under the latest version of the EUPL.
 *    Please see LICENSE file for your rights under this license. */
-    require __DIR__ . '/vendor/autoload.php';
-    require __DIR__ . '/dotenv-loader.php';
-    $auth0 = new Auth0\SDK\Auth0([
-        'domain' => $_ENV['AUTH0_DOMAIN'],
-        'client_id' => $_ENV['AUTH0_CLIENT_ID'],
-        'client_secret' => $_ENV['AUTH0_CLIENT_SECRET'],
-        'redirect_uri' => $_ENV['AUTH0_CALLBACK_URL'],
-    ]);
-    $userInfo = $auth0->getUser();
-
     $indexpage = true;
     require "scripts/pi-hole/php/header.php";
     require_once "scripts/pi-hole/php/gravity.php";
@@ -116,7 +106,7 @@
   // Even if we would include them here anyhow, there would be nothing to
   // show since the API will respect the privacy of the user if he defines
   // a password
-  if($userInfo){ ?>
+  if($auth){ ?>
 
 <div class="row">
     <div class="col-md-12">
