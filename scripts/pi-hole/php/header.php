@@ -5,6 +5,15 @@
 *
 *  This file is copyright under the latest version of the EUPL.
 *  Please see LICENSE file for your rights under this license. */
+    require __DIR__ . '/../../../vendor/autoload.php';
+    require __DIR__ . '/../../../dotenv-loader.php';
+    $auth0 = new Auth0\SDK\Auth0([
+        'domain' => $_ENV['AUTH0_DOMAIN'],
+        'client_id' => $_ENV['AUTH0_CLIENT_ID'],
+        'client_secret' => $_ENV['AUTH0_CLIENT_SECRET'],
+        'redirect_uri' => $_ENV['AUTH0_CALLBACK_URL'],
+    ]);
+    $auth = $auth0->getUser();
 
     require "scripts/pi-hole/php/auth.php";
     require "scripts/pi-hole/php/password.php";
@@ -105,7 +114,7 @@
         $memory_usage = -1;
     }
 
-    if($auth) {
+    if(!is_null($auth)) {
         // For session timer
         $maxlifetime = ini_get("session.gc_maxlifetime");
 
@@ -226,7 +235,7 @@
     <!-- /JS Warning -->
 </noscript>
 <?php
-if($auth) {
+if(!is_null($auth)) {
     echo "<div id=\"token\" hidden>$token</div>";
 }
 ?>
@@ -290,7 +299,7 @@ if($auth) {
                                         <a class="btn-link" href="https://github.com/pi-hole/pi-hole/releases" rel="noopener" target="_blank">Updates</a>
                                     </div>
                                     <div id="sessiontimer" class="col-xs-12 text-center">
-                                        <strong>Session is valid for <span id="sessiontimercounter"><?php if($auth && strlen($pwhash) > 0){echo $maxlifetime;}else{echo "0";} ?></span></strong>
+                                        <strong>Session is valid for <span id="sessiontimercounter"><?php if(!is_null($auth) && strlen($pwhash) > 0){echo $maxlifetime;}else{echo "0";} ?></span></strong>
                                     </div>
                                 </div>
                             </li>
@@ -403,7 +412,7 @@ if($auth) {
                     $scriptname = "blacklist";
                 }
             }
-            if(!$auth && (!isset($indexpage) || isset($_GET['login'])))
+            if(is_null($auth) && (!isset($indexpage) || isset($_GET['login'])))
             {
                 $scriptname = "login";
             }
@@ -416,7 +425,7 @@ if($auth) {
                         <i class="fa fa-fw fa-home"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <?php if($auth){ ?>
+                <?php if(!is_null($auth)){ ?>
                 <!-- Query Log -->
                 <li<?php if($scriptname === "queries.php"){ ?> class="active"<?php } ?>>
                     <a href="queries.php">
@@ -636,9 +645,9 @@ if($auth) {
                 <!-- Login -->
                 <?php
                 // Show Login button if $auth is *not* set and authorization is required
-                if(strlen($pwhash) > 0 && !$auth) { ?>
+                if(strlen($pwhash) > 0 && (is_null($auth))) { ?>
                 <li<?php if($scriptname === "login"){ ?> class="active"<?php } ?>>
-                    <a href="index.php?login">
+                    <a href="login.php">
                         <i class="fa fa-fw fa-user"></i> <span>Login</span>
                     </a>
                 </li>
@@ -673,7 +682,7 @@ if($auth) {
     //
     // If auth is required and not set, i.e. no successfully logged in,
     // we show the reduced version of the summary (index) page
-    if(!$auth && (!isset($indexpage) || isset($_GET['login']))){
+    if(is_null($auth) && (!isset($indexpage) || isset($_GET['login']))){
         require "scripts/pi-hole/php/loginpage.php";
         require "footer.php";
         exit();
