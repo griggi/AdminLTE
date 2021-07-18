@@ -5,6 +5,14 @@
 *
 *  This file is copyright under the latest version of the EUPL.
 *  Please see LICENSE file for your rights under this license. */
+    require __DIR__ . '/../../../vendor/autoload.php';
+    require __DIR__ . '/../../../dotenv-loader.php';
+    $auth0 = new Auth0\SDK\Auth0([
+        'domain' => $_ENV['AUTH0_DOMAIN'],
+        'client_id' => $_ENV['AUTH0_CLIENT_ID'],
+        'client_secret' => $_ENV['AUTH0_CLIENT_SECRET'],
+        'redirect_uri' => $_ENV['AUTH0_CALLBACK_URL'],
+    ]);
 
     require_once('func.php');
 
@@ -115,4 +123,5 @@
         // No password set
         $auth = true;
     }
+    $auth = $auth0->getUser();
 ?>
