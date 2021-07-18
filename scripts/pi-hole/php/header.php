@@ -627,7 +627,7 @@ if($auth) {
                 // Show Logout button if $auth is set and authorization is required
                 if(strlen($pwhash) > 0) { ?>
                 <li>
-                    <a href="?logout">
+                    <a href="logout.php">
                         <i class="fa fa-fw fa-user-times"></i> <span>Logout</span>
                     </a>
                 </li>
@@ -638,7 +638,7 @@ if($auth) {
                 // Show Login button if $auth is *not* set and authorization is required
                 if(strlen($pwhash) > 0 && !$auth) { ?>
                 <li<?php if($scriptname === "login"){ ?> class="active"<?php } ?>>
-                    <a href="index.php?login">
+                    <a href="login.php">
                         <i class="fa fa-fw fa-user"></i> <span>Login</span>
                     </a>
                 </li>
