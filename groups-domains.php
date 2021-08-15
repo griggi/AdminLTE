@@ -9,6 +9,7 @@
     $type = "all";
     $pagetitle = "Domain";
     $adjective = "";
+    $userInfo = $auth['nickname'];
     if (isset($_GET['type']) && ($_GET['type'] === "white" || $_GET['type'] === "black")) {
         $type = $_GET['type'];
         $pagetitle = ucfirst($type)."list";
@@ -49,6 +50,7 @@
                                     <div class="form-group">
                                         <label for="new_domain">Domain:</label>
                                             <input id="new_domain" type="url" class="form-control active" placeholder="Domain to be added" autocomplete="off" spellcheck="false" autocapitalize="none" autocorrect="off">
+                                            <input id="group_id" type="hidden" value=<?php echo $userInfo; ?>>
                                     </div>
                                 </div>
                                 <div class="col-md-6 form-group">
