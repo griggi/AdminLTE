@@ -308,15 +308,17 @@ function addDomain() {
   var type;
 
   // current tab's inputs
-  var domainRegex, domainEl, commentEl;
+  var domainRegex, domainEl, commentEl,group_id;
   if (tabHref === "#tab_domain") {
     domainRegex = "domain";
     domainEl = $("#new_domain");
     commentEl = $("#new_domain_comment");
+    group_id = $("#group_id").val();
   } else if (tabHref === "#tab_regex") {
     domainRegex = "regex";
     domainEl = $("#new_regex");
     commentEl = $("#new_regex_comment");
+    group_id = $("#group_id").val();
   }
 
   var domain = utils.escapeHtml(domainEl.val());
@@ -359,6 +361,7 @@ function addDomain() {
       action: "add_domain",
       domain: domain,
       type: type,
+      group_id: group_id,
       comment: comment,
       token: token
     },
@@ -373,6 +376,7 @@ function addDomain() {
       } else {
         utils.showAlert("error", "", "Error while adding new " + domainRegex, response.message);
       }
+     console.log(group_id);
     },
     error: function (jqXHR, exception) {
       utils.enableAll();

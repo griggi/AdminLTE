@@ -529,7 +529,7 @@ if ($_POST['action'] == 'get_groups') {
         $db->query('BEGIN TRANSACTION;');
 
         // Prepare INSERT INTO statement
-        $insert_stmt = $db->prepare('INSERT OR IGNORE INTO domainlist (domain,type) VALUES (:domain,:type)');
+        $insert_stmt = $db->prepare('INSERT OR IGNORE INTO domainlist (domain,type,group_id) VALUES (:domain,:type,:group_id)');
         if (!$insert_stmt) {
             throw new Exception('While preparing statement: ' . $db->lastErrorMsg());
         }
@@ -562,6 +562,9 @@ if ($_POST['action'] == 'get_groups') {
         } else if (isset($_POST['list']) && $_POST['list'] === "black") {
             $type = ListType::blacklist;
         }
+        if (isset($_POST['group_id'])) {
+          $group_id = $_POST['group_id'];
+        }
 
         if (!$insert_stmt->bindValue(':type', $type, SQLITE3_TEXT) ||
             !$update_stmt->bindValue(':type', $type, SQLITE3_TEXT)) {
@@ -574,6 +577,9 @@ if ($_POST['action'] == 'get_groups') {
             $comment = null;
         }
         if (!$update_stmt->bindValue(':comment', $comment, SQLITE3_TEXT)) {
+            throw new Exception('While binding comment: ' . $db->lastErrorMsg());
+        }
+        if (!$insert_stmt->bindValue(':group_id', $group_id, SQLITE3_TEXT)) {
             throw new Exception('While binding comment: ' . $db->lastErrorMsg());
         }
 
@@ -672,6 +678,7 @@ if ($_POST['action'] == 'get_groups') {
                 throw new Exception('While executing INSERT OT IGNORE: <strong>' . $db->lastErrorMsg() . '</strong><br>'.
                 'Added ' . $added . " out of ". $total . " domains");
             }
+            error_log("added new domain for group_id" .$domain .$group_id); 
 
             // Then update the record with a new comment (and modification date
             // due to the trigger event) We are not using REPLACE INTO to avoid
@@ -766,6 +773,7 @@ if ($_POST['action'] == 'get_groups') {
             $groups = $_POST['groups'];
         foreach ($groups as $gid) {
             $stmt = $db->prepare('INSERT INTO domainlist_by_group (domainlist_id,group_id) VALUES(:id,:gid);');
+            error_log("iris::edit_domains groups are ".$gid);
             if (!$stmt) {
                 throw new Exception('While preparing INSERT INTO statement: ' . $db->lastErrorMsg());
             }
