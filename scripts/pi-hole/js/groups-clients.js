@@ -262,6 +262,8 @@ function initTable() {
 function addClient() {
   var ip = $("#select").val().trim();
   var comment = utils.escapeHtml($("#new_comment").val());
+  var group_id;
+  group_id = $("#group_id").val();
 
   utils.disableAll();
   utils.showAlert("info", "", "Adding client...", ip);
@@ -295,13 +297,14 @@ function addClient() {
     url: "scripts/pi-hole/php/groups.php",
     method: "post",
     dataType: "json",
-    data: { action: "add_client", ip: ip, comment: comment, token: token },
+    data: { action: "add_client", ip: ip, group_id: group_id, comment: comment, token: token },
     success: function (response) {
       utils.enableAll();
       if (response.success) {
         utils.showAlert("success", "fas fa-plus", "Successfully added client", ip);
         reloadClientSuggestions();
         table.ajax.reload(null, false);
+      console.log(group_id);
       } else {
         utils.showAlert("error", "", "Error while adding new client", response.message);
       }

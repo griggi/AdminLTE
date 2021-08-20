@@ -303,11 +303,17 @@ if ($_POST['action'] == 'get_groups') {
     // Add new client
     try {
         $ips = explode(' ', trim($_POST['ip']));
+        if (isset($_POST['group_id'])) {
+          $group_id = $_POST['group_id'];
+        }
         $total = count($ips);
         $added = 0;
-        $stmt = $db->prepare('INSERT INTO client (ip,comment) VALUES (:ip,:comment)');
+        $stmt = $db->prepare('INSERT INTO client (ip,group_id,comment) VALUES (:ip,:group_id,:comment)');
         if (!$stmt) {
             throw new Exception('While preparing statement: ' . $db->lastErrorMsg());
+        }
+        if (!$stmt->bindValue(':group_id', $group_id, SQLITE3_TEXT)) {
+            throw new Exception('While binding comment: ' . $db->lastErrorMsg());
         }
 
         foreach ($ips as $ip) {
@@ -335,6 +341,7 @@ if ($_POST['action'] == 'get_groups') {
                 'Added ' . $added . " out of ". $total . " clients");
             }
             $added++;
+            error_log("added new client for group_id " .$ip .$group_id); 
         }
 
         $reload = true;

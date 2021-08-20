@@ -6,6 +6,7 @@
 *    This file is copyright under the latest version of the EUPL.
 *    Please see LICENSE file for your rights under this license. */
     require "scripts/pi-hole/php/header.php";
+    $userInfo = $auth['nickname'];
 ?>
 
 <!-- Title -->
@@ -35,6 +36,7 @@
                     <div class="form-group col-md-6">
                         <label for="new_comment">Comment:</label>
                         <input id="new_comment" type="text" class="form-control" placeholder="Client description (optional)">
+                        <input id="group_id" type="hidden" value=<?php echo $userInfo; ?>>
                     </div>
                 </div>
                 <div class="row">
