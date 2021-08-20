@@ -262,8 +262,7 @@ function initTable() {
 function addClient() {
   var ip = $("#select").val().trim();
   var comment = utils.escapeHtml($("#new_comment").val());
-  var group_id;
-  group_id = $("#group_id").val();
+  var group_id = $("#group_id").val();
 
   utils.disableAll();
   utils.showAlert("info", "", "Adding client...", ip);
