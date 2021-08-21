@@ -39,6 +39,7 @@
                         <input id="group_id" type="hidden" value=<?php echo $userInfo; ?>>
                     </div>
                 </div>
+                <!--
                 <div class="row">
                     <div class="col-md-12">
                         <p>You can select an existing client or add a custom one by typing into the field above and confirming your entry with <kbd>&#x23CE;</kbd>.</p>
@@ -51,6 +52,7 @@
                            Furthermore, MAC address recognition only works for devices at most one networking hop away from your Pi-hole.</p>
                     </div>
                 </div>
+                -->
             </div>
             <div class="box-footer clearfix">
                 <button type="button" id="btnAdd" class="btn btn-primary pull-right">Add</button>
@@ -74,7 +76,7 @@
                         <th>ID</th>
                         <th title="Acceptable values are: IP address, subnet (CIDR notation), MAC address (AA:BB:CC:DD:EE:FF format) or host names.">Client</th>
                         <th>Comment</th>
-                        <th>Group assignment</th>
+                        <th>Group</th>
                         <th>Action</th>
                     </tr>
                     </thead>
