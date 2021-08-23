@@ -94,7 +94,7 @@ function initTable() {
       { data: "id", visible: false },
       { data: "ip", type: "ip-address" },
       { data: "comment" },
-      { data: "groups", searchable: false },
+      { data: "groups", visible: false },
       { data: "name", width: "80px", orderable: false }
     ],
     drawCallback: function () {
@@ -206,7 +206,7 @@ function initTable() {
         '">' +
         '<span class="far fa-trash-alt"></span>' +
         "</button>";
-      $("td:eq(3)", row).html(button);
+      $("td:eq(2)", row).html(button);
     },
     dom:
       "<'row'<'col-sm-4'l><'col-sm-8'f>>" +
